@@ -10,20 +10,19 @@ requests_module = Session()
 
 worker_id = sys.argv[1]
 
-base_url = 'http://localhost:8020/api/app/'
+url = 'http://localhost:8020/api/app/frame'
 
 while True:
     print(worker_id, 'Getting image...')
-    r1 = requests_module.get(base_url + 'get_soundtrack')
+    r1 = requests_module.get(url)
     image = r1.json().get('image')
     id = r1.json().get('id')
     print(worker_id, f'sent: {id}')
-    _, jpeg = cv2.imencode('.jpg', np.array(image))
-    time.sleep(0.2)
+    time.sleep(1)
     print(worker_id, 'Sending image...')
-    r2 = requests_module.post(base_url + 'send_soundtrack', data={
+    r2 = requests_module.post(url, data={
         'id': id,
-        'image': jpeg,
+        # 'image': jpeg,
         # "stones": [{
         #     "x": random.randint(1, 1000),
         #     "y": random.randint(1, 1000),
